@@ -1,25 +1,18 @@
-server:
-  port: ${PORT:8080}
-  url: ${SERVER_URL:http://44.215.83.52:8080}
-
 spring:
   application:
     name: YancarlosHuacre
+
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=Practica2;encrypt=true;trustServerCertificate=true
-    username: sa
+    url: jdbc:sqlserver://practica1.czosksomqv1p.us-east-1.rds.amazonaws.com:1433;databaseName=Practica2;encrypt=true;trustServerCertificate=true
+    username: admin
     password: Yancarlos1
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
   jpa:
-    database-platform: org.hibernate.dialect.SQLServerDialect
     hibernate:
       ddl-auto: update
     show-sql: false
 
-springdoc:
-  api-docs:
-    enabled: true
-    path: /api-docs
-  swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
+server:
+  port: 8080
+  address: 0.0.0.0
