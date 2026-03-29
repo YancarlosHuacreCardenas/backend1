@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: Practica2
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Yancarlos1"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Yancarlos1' -Q \"SELECT 1\""]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    command:
+      - /bin/bash
+      - -lc
+      - |
+        /opt/mssql/bin/sqlservr &
+        sleep 20
+        /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Yancarlos1' -Q "IF DB_ID('Practica2') IS NULL CREATE DATABASE Practica2;"
+        wait
+
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
+      - JAVA_OPTS=-Xms128m -Xmx512m
+    depends_on:
+      - db
+
+volumes:
+  mssql-data:

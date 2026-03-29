@@ -1,0 +1,11 @@
+target
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+*.md
+**/node_modules
+**/.classpath
+**/.project
+**/.settings
+**/pom.xml.original
